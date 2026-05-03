@@ -8,8 +8,9 @@
 
 <nav class="navbar navbar-dark bg-primary px-4">
     <span class="navbar-brand fw-bold">JobBridge 🌉</span>
-    <div class="d-flex align-items-center">
-        <span class="text-white me-3">{{ auth()->user()->name }}</span>
+    <div class="d-flex align-items-center gap-3">
+        <a href="{{ route('employer.jobs.index') }}" class="text-white">My Jobs</a>
+        <a href="{{ route('employer.jobs.create') }}" class="btn btn-light btn-sm">+ Post Job</a>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
@@ -46,6 +47,11 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="mt-3">
+        <a href="{{ route('employer.jobs.create') }}" class="btn btn-primary me-2">+ Post a Job</a>
+        <a href="{{ route('employer.jobs.index') }}" class="btn btn-outline-primary">View My Jobs</a>
     </div>
 </div>
 
