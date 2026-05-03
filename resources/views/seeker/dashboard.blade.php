@@ -28,7 +28,7 @@
             <div class="card text-white bg-success mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Jobs Applied</h5>
-                    <h2>0</h2>
+                    <h2>{{ $jobsApplied }}</h2>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
             <div class="card text-white bg-info mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Pending</h5>
-                    <h2>0</h2>
+                    <h2>{{ $pending }}</h2>
                 </div>
             </div>
         </div>
@@ -44,7 +44,7 @@
             <div class="card text-white bg-primary mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Accepted</h5>
-                    <h2>0</h2>
+                    <h2>{{ $accepted }}</h2>
                 </div>
             </div>
         </div>
