@@ -56,6 +56,7 @@
                         </span>
                     </td>
                     <td>
+                        <a href="{{ route('employer.applications', $job->id) }}" class="btn btn-info btn-sm">Applicants</a>
                         <a href="{{ route('employer.jobs.edit', $job->id) }}" class="btn btn-warning btn-sm">Edit</a>
                         <form action="{{ route('employer.jobs.destroy', $job->id) }}" method="POST" class="d-inline">
                             @csrf

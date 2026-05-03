@@ -25,10 +25,14 @@ Route::get('/dashboard', function () {
 // Auth Routes (Breeze)
 require __DIR__.'/auth.php';
 
+use App\Http\Controllers\Employer\ApplicationController;
+
 // Employer Routes
 Route::middleware(['auth', 'employer'])->prefix('employer')->name('employer.')->group(function () {
     Route::get('/dashboard', [EmployerController::class, 'dashboard'])->name('dashboard');
     Route::resource('jobs', JobController::class);
+    Route::get('/jobs/{jobId}/applications', [ApplicationController::class, 'index'])->name('applications');
+    Route::put('/applications/{application}/{status}', [ApplicationController::class, 'update'])->name('applications.update');
 });
 
 // Seeker Routes
