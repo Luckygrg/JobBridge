@@ -34,6 +34,10 @@ Route::middleware(['auth', 'employer'])->prefix('employer')->name('employer.')->
 // Seeker Routes
 Route::middleware(['auth', 'seeker'])->prefix('seeker')->name('seeker.')->group(function () {
     Route::get('/dashboard', [SeekerController::class, 'dashboard'])->name('dashboard');
+    Route::get('/jobs', [App\Http\Controllers\Seeker\JobController::class, 'index'])->name('jobs');
+    Route::get('/jobs/{job}', [App\Http\Controllers\Seeker\JobController::class, 'show'])->name('jobs.show');
+    Route::post('/jobs/{job}/apply', [App\Http\Controllers\Seeker\JobController::class, 'apply'])->name('jobs.apply');
+    Route::get('/applications', [App\Http\Controllers\Seeker\JobController::class, 'applications'])->name('applications');
 });
 
 // Admin Routes
