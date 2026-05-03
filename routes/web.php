@@ -11,6 +11,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Redirect /dashboard to role based dashboard
+Route::get('/dashboard', function () {
+    if (auth()->user()->role === 'employer') {
+        return redirect()->route('employer.dashboard');
+    } elseif (auth()->user()->role === 'admin') {
+        return redirect()->route('admin.dashboard');
+    } else {
+        return redirect()->route('seeker.dashboard');
+    }
+})->middleware(['auth'])->name('dashboard');
+
 // Auth Routes (Breeze)
 require __DIR__.'/auth.php';
 

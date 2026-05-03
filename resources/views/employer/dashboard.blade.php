@@ -27,7 +27,7 @@
             <div class="card text-white bg-primary mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Jobs Posted</h5>
-                    <h2>0</h2>
+                    <h2>{{ $jobsPosted }}</h2>
                 </div>
             </div>
         </div>
