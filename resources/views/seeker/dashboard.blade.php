@@ -8,8 +8,10 @@
 
 <nav class="navbar navbar-dark bg-success px-4">
     <span class="navbar-brand fw-bold">JobBridge 🌉</span>
-    <div class="d-flex align-items-center">
-        <span class="text-white me-3">{{ auth()->user()->name }}</span>
+    <div class="d-flex align-items-center gap-3">
+        <a href="{{ route('seeker.jobs') }}" class="text-white">Browse Jobs</a>
+        <a href="{{ route('seeker.applications') }}" class="text-white">My Applications</a>
+        <span class="text-white">{{ auth()->user()->name }}</span>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
@@ -46,6 +48,11 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="mt-3">
+        <a href="{{ route('seeker.jobs') }}" class="btn btn-success me-2">Browse Jobs</a>
+        <a href="{{ route('seeker.applications') }}" class="btn btn-outline-success">My Applications</a>
     </div>
 </div>
 
