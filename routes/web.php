@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Employer\EmployerController;
+use App\Http\Controllers\Employer\JobController;
 use App\Http\Controllers\Seeker\SeekerController;
 
 // Home
@@ -16,6 +17,7 @@ require __DIR__.'/auth.php';
 // Employer Routes
 Route::middleware(['auth', 'employer'])->prefix('employer')->name('employer.')->group(function () {
     Route::get('/dashboard', [EmployerController::class, 'dashboard'])->name('dashboard');
+    Route::resource('jobs', JobController::class);
 });
 
 // Seeker Routes
