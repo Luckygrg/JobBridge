@@ -3,6 +3,7 @@
 <head>
     <title>Seeker Dashboard - JobBridge</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-light">
 
@@ -50,11 +51,53 @@
         </div>
     </div>
 
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <div class="card p-3">
+                <h5 class="mb-3">Application Status</h5>
+                <canvas id="statusChart"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card p-3">
+                <h5 class="mb-3">My Applications Overview</h5>
+                <canvas id="overviewChart"></canvas>
+            </div>
+        </div>
+    </div>
+
     <div class="mt-3">
         <a href="{{ route('seeker.jobs') }}" class="btn btn-success me-2">Browse Jobs</a>
         <a href="{{ route('seeker.applications') }}" class="btn btn-outline-success">My Applications</a>
     </div>
 </div>
+
+<script>
+const statusChart = new Chart(document.getElementById('statusChart'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Pending', 'Accepted', 'Rejected'],
+        datasets: [{
+            data: [{{ $pending }}, {{ $accepted }}, {{ $rejected }}],
+            backgroundColor: ['#ffc107', '#198754', '#dc3545'],
+        }]
+    },
+    options: { responsive: true }
+});
+
+const overviewChart = new Chart(document.getElementById('overviewChart'), {
+    type: 'bar',
+    data: {
+        labels: ['Total Applied', 'Pending', 'Accepted', 'Rejected'],
+        datasets: [{
+            label: 'Count',
+            data: [{{ $jobsApplied }}, {{ $pending }}, {{ $accepted }}, {{ $rejected }}],
+            backgroundColor: ['#0d6efd', '#ffc107', '#198754', '#dc3545'],
+        }]
+    },
+    options: { responsive: true }
+});
+</script>
 
 </body>
 </html>
