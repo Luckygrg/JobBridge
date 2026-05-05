@@ -17,7 +17,19 @@ class EmployerController extends Controller
         $pendingReviews = Application::whereHas('job', function($q) {
             $q->where('user_id', auth()->id());
         })->where('status', 'pending')->count();
+        $accepted = Application::whereHas('job', function($q) {
+            $q->where('user_id', auth()->id());
+        })->where('status', 'accepted')->count();
+        $rejected = Application::whereHas('job', function($q) {
+            $q->where('user_id', auth()->id());
+        })->where('status', 'rejected')->count();
 
-        return view('employer.dashboard', compact('jobsPosted', 'totalApplicants', 'pendingReviews'));
+        return view('employer.dashboard', compact(
+            'jobsPosted',
+            'totalApplicants',
+            'pendingReviews',
+            'accepted',
+            'rejected'
+        ));
     }
 }
