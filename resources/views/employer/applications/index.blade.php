@@ -35,6 +35,7 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Cover Letter</th>
+                    <th>Resume</th>
                     <th>Applied On</th>
                     <th>Status</th>
                     <th>Actions</th>
@@ -47,6 +48,16 @@
                     <td>{{ $application->seeker->name }}</td>
                     <td>{{ $application->seeker->email }}</td>
                     <td>{{ Str::limit($application->cover_letter, 50) }}</td>
+                    <td>
+                        @if($application->resume)
+                            <a href="{{ asset('storage/' . $application->resume) }}"
+                               target="_blank" class="btn btn-sm btn-outline-primary">
+                               View Resume
+                            </a>
+                        @else
+                            <span class="text-muted">No resume</span>
+                        @endif
+                    </td>
                     <td>{{ $application->created_at->format('Y-m-d') }}</td>
                     <td>
                         @if($application->status == 'pending')
