@@ -7,7 +7,7 @@
 <body class="bg-light">
 
 <nav class="navbar navbar-dark bg-primary px-4">
-    <span class="navbar-brand fw-bold">JobBridge 🌉</span>
+    <span class="navbar-brand fw-bold">JobBridge </span>
     <div class="d-flex align-items-center gap-3">
         <a href="{{ route('employer.jobs.index') }}" class="text-white">My Jobs</a>
         <a href="{{ route('employer.jobs.create') }}" class="btn btn-light btn-sm">+ Post Job</a>
@@ -19,7 +19,7 @@
 </nav>
 
 <div class="container mt-5">
-    <h2>Welcome, {{ auth()->user()->name }}! 👋</h2>
+    <h2>Welcome, {{ auth()->user()->name }}! </h2>
     <p class="text-muted">You are logged in as <strong>Employer</strong></p>
 
     <div class="row mt-4">

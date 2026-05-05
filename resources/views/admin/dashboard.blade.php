@@ -7,7 +7,7 @@
 <body class="bg-light">
 
 <nav class="navbar navbar-dark bg-dark px-4">
-    <span class="navbar-brand fw-bold">JobBridge 🌉 Admin</span>
+    <span class="navbar-brand fw-bold">JobBridge  Admin</span>
     <div class="d-flex align-items-center">
         <span class="text-white me-3">{{ auth()->user()->name }}</span>
         <form method="POST" action="{{ route('logout') }}">
@@ -18,7 +18,7 @@
 </nav>
 
 <div class="container mt-5">
-    <h2>Welcome, Admin {{ auth()->user()->name }}! 👋</h2>
+    <h2>Welcome, Admin {{ auth()->user()->name }}! </h2>
     <p class="text-muted">You have full control of JobBridge</p>
 
     <div class="row mt-4">

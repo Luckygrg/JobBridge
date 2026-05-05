@@ -47,4 +47,8 @@ Route::middleware(['auth', 'seeker'])->prefix('seeker')->name('seeker.')->group(
 // Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/users', [AdminController::class, 'users'])->name('users');
+    Route::delete('/users/{user}', [AdminController::class, 'deleteUser'])->name('users.delete');
+    Route::get('/jobs', [AdminController::class, 'jobs'])->name('jobs');
+    Route::delete('/jobs/{job}', [AdminController::class, 'deleteJob'])->name('jobs.delete');
 });
