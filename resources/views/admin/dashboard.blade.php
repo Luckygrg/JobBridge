@@ -8,8 +8,9 @@
 
 <nav class="navbar navbar-dark bg-dark px-4">
     <span class="navbar-brand fw-bold">JobBridge  Admin</span>
-    <div class="d-flex align-items-center">
-        <span class="text-white me-3">{{ auth()->user()->name }}</span>
+    <div class="d-flex align-items-center gap-3">
+        <a href="{{ route('admin.users') }}" class="text-white">Users</a>
+        <a href="{{ route('admin.jobs') }}" class="text-white">Jobs</a>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
@@ -26,7 +27,7 @@
             <div class="card text-white bg-dark mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Total Users</h5>
-                    <h2>0</h2>
+                    <h2>{{ $totalUsers }}</h2>
                 </div>
             </div>
         </div>
@@ -34,7 +35,7 @@
             <div class="card text-white bg-primary mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Total Jobs</h5>
-                    <h2>0</h2>
+                    <h2>{{ $totalJobs }}</h2>
                 </div>
             </div>
         </div>
@@ -42,10 +43,31 @@
             <div class="card text-white bg-success mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Total Applications</h5>
-                    <h2>0</h2>
+                    <h2>{{ $totalApplications }}</h2>
                 </div>
             </div>
         </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Total Employers</h5>
+                    <h2>{{ $totalEmployers }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Total Seekers</h5>
+                    <h2>{{ $totalSeekers }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <a href="{{ route('admin.users') }}" class="btn btn-dark me-2">Manage Users</a>
+        <a href="{{ route('admin.jobs') }}" class="btn btn-outline-dark">Manage Jobs</a>
     </div>
 </div>
 
