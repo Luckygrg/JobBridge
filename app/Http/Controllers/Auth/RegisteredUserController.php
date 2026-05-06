@@ -26,32 +26,46 @@ class RegisteredUserController extends Controller
      * Handle an incoming registration request.
      */
     public function store(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => ['required', 'in:employer,seeker'],
-        ]);
+{
+    $rules = [
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        'role' => ['required', 'in:employer,seeker'],
+    ];
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
-        ]);
-
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        // Redirect based on role
-        if ($user->role === 'employer') {
-            return redirect()->route('employer.dashboard');
-        } elseif ($user->role === 'admin') {
-            return redirect()->route('admin.dashboard');
-        } else {
-            return redirect()->route('seeker.dashboard');
-        }
+    if ($request->role === 'employer') {
+        $rules['company_name'] = ['required', 'string', 'max:255'];
+        $rules['company_phone'] = ['required', 'string', 'max:20'];
+        $rules['company_industry'] = ['required', 'string'];
+        $rules['company_city'] = ['required', 'string'];
     }
+
+    $request->validate($rules);
+
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'role' => $request->role,
+        'company_name' => $request->company_name,
+        'company_phone' => $request->company_phone,
+        'company_industry' => $request->company_industry,
+        'company_city' => $request->company_city,
+        'company_address' => $request->company_address,
+        'contact_person' => $request->contact_person,
+        'contact_mobile' => $request->contact_mobile,
+    ]);
+
+    event(new Registered($user));
+    Auth::login($user);
+
+    if ($user->role === 'employer') {
+        return redirect()->route('employer.dashboard');
+    } elseif ($user->role === 'admin') {
+        return redirect()->route('admin.dashboard');
+    } else {
+        return redirect()->route('seeker.dashboard');
+    }
+}
 }
