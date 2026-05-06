@@ -9,7 +9,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', sans-serif; color: #333; }
 
-        /* Navbar */
         .navbar { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 15px 0; }
         .navbar-brand { font-size: 1.5rem; font-weight: 700; color: #00897b !important; }
         .nav-link { color: #333 !important; font-weight: 500; }
@@ -19,7 +18,10 @@
         .btn-register { background: #00897b; color: #fff; border-radius: 25px; padding: 6px 22px; font-weight: 600; border: 2px solid #00897b; }
         .btn-register:hover { background: #00695c; color: #fff; }
 
-        /* Hero */
+        .dropdown-toggle { background: #fff !important; border: none !important; color: #333 !important; font-weight: 500; }
+        .dropdown-toggle:hover { color: #00897b !important; }
+        .dropdown-item:hover { color: #00897b; background: #e0f2f1; }
+
         .hero { background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%); padding: 80px 0; }
         .hero h1 { font-size: 2.5rem; font-weight: 700; color: #1a1a2e; line-height: 1.3; }
         .hero h1 span { color: #00897b; }
@@ -31,12 +33,10 @@
         .category-tags .tag { background: #fff; color: #00897b; border: 1px solid #00897b; border-radius: 20px; padding: 5px 15px; font-size: 0.85rem; cursor: pointer; display: inline-block; margin: 4px; }
         .category-tags .tag:hover { background: #00897b; color: #fff; }
 
-        /* Stats */
         .stats { background: #fff; padding: 30px 0; border-bottom: 1px solid #eee; }
         .stat-item h3 { color: #00897b; font-weight: 700; font-size: 1.8rem; margin-bottom: 4px; }
         .stat-item p { color: #666; font-size: 0.9rem; margin: 0; }
 
-        /* Featured Jobs */
         .section-title { font-size: 1.5rem; font-weight: 700; color: #1a1a2e; border-left: 4px solid #00897b; padding-left: 12px; }
         .job-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; transition: all 0.3s; height: 100%; }
         .job-card:hover { box-shadow: 0 8px 25px rgba(0,137,123,0.15); transform: translateY(-3px); border-color: #00897b; }
@@ -46,30 +46,26 @@
         .badge-type { background: #e0f2f1; color: #00695c; border-radius: 20px; padding: 4px 12px; font-size: 0.78rem; font-weight: 600; }
         .deadline { color: #e74c3c; font-size: 0.85rem; margin: 0; }
 
-        /* How it works */
         .how-it-works { background: #f8f9fa; padding: 60px 0; }
         .step-card { text-align: center; padding: 30px 20px; }
-        .step-icon { width: 70px; height: 70px; background: #e0f2f1; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 1.8rem; color: #00897b; border: 2px solid #00897b; }
-        .step-number { width: 30px; height: 30px; background: #00897b; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; margin: 0 auto 15px; }
+        .step-number { width: 40px; height: 40px; background: #00897b; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 700; margin: 0 auto 15px; }
 
-        /* CTA */
-        .cta-section { background: #00897b; padding: 60px 0; color: #fff; text-align: center; }
+        .cta-section { background: #004d40; padding: 60px 0; color: #fff; text-align: center; }
         .cta-section h2 { font-size: 2rem; font-weight: 700; }
         .btn-cta { background: #fff; color: #00897b; border-radius: 25px; padding: 12px 35px; font-weight: 700; font-size: 1rem; border: none; }
         .btn-cta:hover { background: #e0f2f1; color: #00695c; }
 
-        /* Footer */
-        footer { background: #1a1a2e; color: #ccc; padding: 50px 0 20px; }
+        footer { background: #00695c; color: #fff; padding: 50px 0 20px; }
         footer h6 { color: #fff; font-weight: 600; margin-bottom: 15px; font-size: 1rem; }
-        footer a { color: #aaa; text-decoration: none; display: block; margin-bottom: 8px; font-size: 0.9rem; }
-        footer a:hover { color: #00897b; }
-        .footer-brand { font-size: 1.3rem; font-weight: 700; color: #00897b; margin-bottom: 10px; }
-        .footer-bottom { border-top: 1px solid #333; margin-top: 30px; padding-top: 20px; text-align: center; font-size: 0.85rem; color: #888; }
+        footer a { color: #b2dfdb; text-decoration: none; display: block; margin-bottom: 8px; font-size: 0.9rem; }
+        footer a:hover { color: #fff; }
+        footer p { color: #b2dfdb; }
+        .footer-brand { font-size: 1.3rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .footer-bottom { border-top: 1px solid #00897b; margin-top: 30px; padding-top: 20px; text-align: center; font-size: 0.85rem; color: #b2dfdb; }
     </style>
 </head>
 <body>
 
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container">
         <a class="navbar-brand" href="/">JobBridge</a>
@@ -81,13 +77,34 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('login') }}">Browse Jobs</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('register') }}">For Employers</a>
-                </li>
             </ul>
-            <div class="d-flex gap-2">
-                <a href="{{ route('login') }}" class="btn btn-login">Login</a>
-                <a href="{{ route('register') }}" class="btn btn-register">Register</a>
+            <div class="d-flex gap-3 align-items-center">
+
+                <!-- For Jobseekers Dropdown -->
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        For Jobseekers
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ route('login') }}">Login</a></li>
+                        <li><a class="dropdown-item" href="{{ route('register') }}">Create Account</a></li>
+                    </ul>
+                </div>
+
+                <!-- Divider -->
+                <div style="width:1px; height:30px; background:#ddd;"></div>
+
+                <!-- For Employers Dropdown -->
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        For Employers
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{{ route('login') }}">Login</a></li>
+                        <li><a class="dropdown-item" href="{{ route('register') }}">Register</a></li>
+                    </ul>
+                </div>
+
             </div>
         </div>
     </div>
@@ -240,7 +257,7 @@
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="footer-brand">JobBridge</div>
-                <p style="font-size:0.9rem;color:#aaa;">Connecting job seekers and employers across Nepal. Find your dream job today!</p>
+                <p>Connecting job seekers and employers across Nepal. Find your dream job today!</p>
             </div>
             <div class="col-md-2">
                 <h6>For Job Seekers</h6>
@@ -256,9 +273,9 @@
             </div>
             <div class="col-md-4">
                 <h6>Contact Us</h6>
-                <p style="font-size:0.9rem;color:#aaa;">Kathmandu, Nepal</p>
-                <p style="font-size:0.9rem;color:#aaa;">info@jobbridge.com</p>
-                <p style="font-size:0.9rem;color:#aaa;">+977 1 234567</p>
+                <p>Kathmandu, Nepal</p>
+                <p>info@jobbridge.com</p>
+                <p>+977 1 234567</p>
             </div>
         </div>
         <div class="footer-bottom">
