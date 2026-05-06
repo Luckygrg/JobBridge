@@ -7,7 +7,7 @@
 <body class="bg-light">
 
 <nav class="navbar navbar-dark bg-primary px-4">
-    <span class="navbar-brand fw-bold">JobBridge 🌉</span>
+    <span class="navbar-brand fw-bold">JobBridge </span>
     <div class="d-flex align-items-center gap-3">
         <a href="{{ route('employer.jobs.index') }}" class="text-white">← Back to Jobs</a>
         <form method="POST" action="{{ route('logout') }}">
