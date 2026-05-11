@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Employer;
 use App\Http\Controllers\Controller;
 use App\Models\Application;
 use App\Models\JobListing;
+use Illuminate\Http\Request;
 
 class ApplicationController extends Controller
 {
@@ -22,9 +23,16 @@ class ApplicationController extends Controller
         return view('employer.applications.index', compact('job', 'applications'));
     }
 
-    public function update(Application $application, $status)
+    public function update(Request $request, $applicationId, $status)
     {
+        if (!in_array($status, ['accepted', 'rejected'])) {
+            return back()->with('error', 'Invalid status!');
+        }
+
+        $application = Application::findOrFail($applicationId);
+
         $application->update(['status' => $status]);
+
         return back()->with('success', 'Application ' . $status . ' successfully!');
     }
 }
