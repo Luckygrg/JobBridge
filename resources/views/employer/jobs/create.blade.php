@@ -75,7 +75,14 @@
     <div class="topbar">
         <h5>Post a New Job</h5>
         <div class="d-flex align-items-center gap-2">
-            <div class="user-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
+            <div class="user-avatar" style="overflow:hidden;">
+    @if(auth()->user()->profile_photo)
+        <img src="{{ asset('storage/' . auth()->user()->profile_photo) }}"
+             alt="Profile" style="width:100%;height:100%;object-fit:cover;">
+    @else
+        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+    @endif
+</div>
             <div>
                 <div style="font-weight:600;font-size:0.9rem;">{{ auth()->user()->name }}</div>
                 <div style="color:#888;font-size:0.8rem;">Employer</div>

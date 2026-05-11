@@ -88,7 +88,14 @@
     <div class="topbar">
         <h5>Applicants for: {{ $job->title }}</h5>
         <div class="d-flex align-items-center gap-2">
-            <div class="user-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
+            <div class="user-avatar" style="overflow:hidden;">
+    @if(auth()->user()->profile_photo)
+        <img src="{{ asset('storage/' . auth()->user()->profile_photo) }}"
+             alt="Profile" style="width:100%;height:100%;object-fit:cover;">
+    @else
+        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+    @endif
+</div>
             <div>
                 <div style="font-weight:600;font-size:0.9rem;">{{ auth()->user()->name }}</div>
                 <div style="color:#888;font-size:0.8rem;">Employer</div>
@@ -143,8 +150,13 @@
                         <td>{{ $index + 1 }}</td>
                         <td>
                             <div class="d-flex align-items-center gap-2">
-                                <div style="width:34px;height:34px;background:#e0f2f1;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#00897b;font-size:0.85rem;">
-                                    {{ strtoupper(substr($application->seeker->name, 0, 1)) }}
+                                <div style="width:34px;height:34px;background:#e0f2f1;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#00897b;font-size:0.85rem;overflow:hidden;">
+                                @if($application->seeker->profile_photo)
+                                <img src="{{ asset('storage/' . $application->seeker->profile_photo) }}"
+                                alt="Profile" style="width:100%;height:100%;object-fit:cover;">
+                                @else
+                                {{ strtoupper(substr($application->seeker->name, 0, 1)) }}
+                                @endif
                                 </div>
                                 {{ $application->seeker->name }}
                             </div>
