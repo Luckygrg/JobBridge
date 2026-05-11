@@ -117,10 +117,10 @@
                     Bridge Your Career Today!
                 </h1>
                 <p class="mb-4">Search and apply for the best jobs. Connect employers with the right talent across Nepal!</p>
-                <div class="search-box mb-4">
-                    <input type="text" placeholder="Search by Job Title, Company or Location...">
-                    <button class="btn-search">Search Job</button>
-                </div>
+                <form action="{{ route('jobs.index') }}" method="GET" class="search-box mb-4">
+                <input type="text" name="search" placeholder="Search by Job Title, Company or Location...">
+                <button type="submit" class="btn-search">Search Job</button>
+                </form>
                 <div class="category-tags">
                     <span class="tag">IT & Software</span>
                     <span class="tag">Marketing</span>

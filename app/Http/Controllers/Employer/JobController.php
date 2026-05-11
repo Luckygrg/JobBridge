@@ -50,12 +50,22 @@ class JobController extends Controller
 
     public function edit(JobListing $job)
     {
+        // Check ownership
+        if ($job->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action!');
+        }
+
         $categories = Category::all();
         return view('employer.jobs.edit', compact('job', 'categories'));
     }
 
     public function update(Request $request, JobListing $job)
     {
+        // Check ownership
+        if ($job->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action!');
+        }
+
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required',
@@ -73,6 +83,11 @@ class JobController extends Controller
 
     public function destroy(JobListing $job)
     {
+        // Check ownership
+        if ($job->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action!');
+        }
+
         $job->delete();
         return redirect()->route('employer.jobs.index')->with('success', 'Job deleted successfully!');
     }
