@@ -38,9 +38,20 @@ class JobController extends Controller
 
     public function show(JobListing $job)
     {
+        // If job is closed
+        if ($job->status !== 'active') {
+            return redirect()->route('seeker.jobs')->with('error', 'This job is no longer available!');
+        }
+
+        // If deadline has passed
+        if (Carbon::parse($job->deadline)->isPast()) {
+            return redirect()->route('seeker.jobs')->with('error', 'This job has expired!');
+        }
+
         $applied = Application::where('job_id', $job->id)
                                ->where('user_id', auth()->id())
                                ->exists();
+
         return view('seeker.jobs.show', compact('job', 'applied'));
     }
 
