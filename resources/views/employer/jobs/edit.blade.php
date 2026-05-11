@@ -133,7 +133,10 @@
 
             <div class="mb-4">
                 <label class="form-label">Application Deadline</label>
-                <input type="date" name="deadline" class="form-control" value="{{ $job->deadline }}" required>
+                <input type="date" name="deadline" class="form-control" 
+       value="{{ \Carbon\Carbon::parse($job->deadline)->format('Y-m-d') }}" 
+       min="{{ \Carbon\Carbon::today()->format('Y-m-d') }}"
+       required>
             </div>
 
             <button type="submit" class="btn-submit">Update Job</button>

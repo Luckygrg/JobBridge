@@ -63,7 +63,7 @@ class JobController extends Controller
             'salary' => 'nullable',
             'job_type' => 'required|in:full-time,part-time,remote,internship',
             'category_id' => 'required|exists:categories,id',
-            'deadline' => 'required|date',
+            'deadline' => 'required|date|after_or_equal:today',
         ]);
 
         $job->update($request->all());
