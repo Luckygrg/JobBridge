@@ -1,10 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Seeker;
 
+use App\Http\Controllers\Controller;
 use App\Models\JobListing;
+use App\Models\Application;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class JobController extends Controller
 {
@@ -27,14 +30,65 @@ class JobController extends Controller
             });
         }
 
-        $jobs = $query->latest()->paginate(9);
+        $jobs = $query->latest()->get();
         $categories = Category::all();
 
-        return view('jobs.index', compact('jobs', 'categories'));
+        return view('seeker.jobs.index', compact('jobs', 'categories'));
     }
 
     public function show(JobListing $job)
     {
-        return view('jobs.show', compact('job'));
+        $applied = Application::where('job_id', $job->id)
+                               ->where('user_id', auth()->id())
+                               ->exists();
+        return view('seeker.jobs.show', compact('job', 'applied'));
+    }
+
+    public function apply(Request $request, JobListing $job)
+    {
+        // Check if job is still active
+        if ($job->status !== 'active') {
+            return back()->with('error', 'This job is no longer accepting applications!');
+        }
+
+        // Check if deadline has passed
+        if (Carbon::parse($job->deadline)->isPast()) {
+            return back()->with('error', 'The application deadline for this job has passed!');
+        }
+
+        // Check if already applied
+        $already = Application::where('job_id', $job->id)
+                               ->where('user_id', auth()->id())
+                               ->exists();
+
+        if ($already) {
+            return back()->with('error', 'You have already applied for this job!');
+        }
+
+        $request->validate([
+            'cover_letter' => 'required|string',
+            'resume' => 'required|file|mimes:pdf|max:2048',
+        ]);
+
+        $resumePath = $request->file('resume')->store('resumes', 'public');
+
+        Application::create([
+            'job_id' => $job->id,
+            'user_id' => auth()->id(),
+            'cover_letter' => $request->cover_letter,
+            'resume' => $resumePath,
+            'status' => 'pending',
+        ]);
+
+        return redirect()->route('seeker.applications')->with('success', 'Applied successfully!');
+    }
+
+    public function applications()
+    {
+        $applications = Application::where('user_id', auth()->id())
+                                   ->with('job')
+                                   ->latest()
+                                   ->get();
+        return view('seeker.applications', compact('applications'));
     }
 }
