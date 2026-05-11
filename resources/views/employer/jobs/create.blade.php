@@ -40,6 +40,7 @@
         .btn-submit:hover { background: #00695c; color: #fff; }
         .alert-danger { border-radius: 8px; font-size: 0.88rem; }
         .section-title { font-size: 1rem; font-weight: 700; color: #1a1a2e; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #e0f2f1; }
+        .salary-info { background: #e0f2f1; border-radius: 8px; padding: 10px 15px; font-size: 0.85rem; color: #00695c; margin-top: 8px; }
     </style>
 </head>
 <body>
@@ -100,7 +101,8 @@
 
             <div class="mb-3">
                 <label class="form-label">Job Title</label>
-                <input type="text" name="title" class="form-control" placeholder="e.g. Laravel Developer" value="{{ old('title') }}" required>
+                <input type="text" name="title" class="form-control"
+                       placeholder="e.g. Laravel Developer" value="{{ old('title') }}" required>
             </div>
 
             <div class="row g-3 mb-3">
@@ -109,7 +111,8 @@
                     <select name="category_id" class="form-select" required>
                         <option value="">Select Category</option>
                         @foreach($categories as $category)
-                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                            <option value="{{ $category->id }}"
+                                {{ old('category_id') == $category->id ? 'selected' : '' }}>
                                 {{ $category->name }}
                             </option>
                         @endforeach
@@ -129,24 +132,62 @@
 
             <div class="mb-3">
                 <label class="form-label">Job Description</label>
-                <textarea name="description" class="form-control" rows="5" placeholder="Describe the job responsibilities and requirements..." required>{{ old('description') }}</textarea>
+                <textarea name="description" class="form-control" rows="5"
+                          placeholder="Describe the job responsibilities and requirements..."
+                          required>{{ old('description') }}</textarea>
             </div>
 
             <div class="row g-3 mb-3">
                 <div class="col-md-6">
                     <label class="form-label">Location</label>
-                    <input type="text" name="location" class="form-control" placeholder="e.g. Kathmandu, Nepal" value="{{ old('location') }}" required>
+                    <input type="text" name="location" class="form-control"
+                           placeholder="e.g. Kathmandu, Nepal" value="{{ old('location') }}" required>
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label">Salary (optional)</label>
-                    <input type="text" name="salary" class="form-control" placeholder="e.g. NPR 50,000" value="{{ old('salary') }}">
+                    <label class="form-label">Application Deadline</label>
+                    <input type="date" name="deadline" class="form-control"
+                           value="{{ old('deadline') }}"
+                           min="{{ \Carbon\Carbon::tomorrow()->format('Y-m-d') }}" required>
                 </div>
             </div>
 
-            <div class="mb-4">
-                <label class="form-label">Application Deadline</label>
-                <input type="date" name="deadline" class="form-control" value="{{ old('deadline') }}" required>
+            <!-- Salary Section -->
+            <p class="section-title mt-2">Salary Information</p>
+
+            <div class="mb-3">
+                <label class="form-label">Salary Type</label>
+                <select name="salary_type" class="form-select" required
+                        onchange="toggleSalary(this.value)">
+                    <option value="negotiable" {{ old('salary_type') == 'negotiable' ? 'selected' : '' }}>Negotiable</option>
+                    <option value="fixed" {{ old('salary_type') == 'fixed' ? 'selected' : '' }}>Fixed</option>
+                    <option value="range" {{ old('salary_type') == 'range' ? 'selected' : '' }}>Range</option>
+                </select>
             </div>
+
+            <div id="salaryFields" style="display:none;">
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Currency</label>
+                        <select name="salary_currency" class="form-select">
+                            <option value="NPR" {{ old('salary_currency') == 'NPR' ? 'selected' : '' }}>NPR</option>
+                            <option value="USD" {{ old('salary_currency') == 'USD' ? 'selected' : '' }}>USD</option>
+                            <option value="INR" {{ old('salary_currency') == 'INR' ? 'selected' : '' }}>INR</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" id="minLabel">Min Salary</label>
+                        <input type="number" name="salary_min" class="form-control"
+                               placeholder="e.g. 30000" min="0" value="{{ old('salary_min') }}">
+                    </div>
+                    <div class="col-md-4" id="maxSalaryField">
+                        <label class="form-label">Max Salary</label>
+                        <input type="number" name="salary_max" class="form-control"
+                               placeholder="e.g. 60000" min="0" value="{{ old('salary_max') }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4"></div>
 
             <button type="submit" class="btn-submit">Post Job</button>
         </form>
@@ -154,5 +195,30 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function toggleSalary(type) {
+    const fields = document.getElementById('salaryFields');
+    const maxField = document.getElementById('maxSalaryField');
+    const minLabel = document.getElementById('minLabel');
+
+    if (type === 'negotiable') {
+        fields.style.display = 'none';
+    } else if (type === 'fixed') {
+        fields.style.display = 'block';
+        maxField.style.display = 'none';
+        minLabel.textContent = 'Salary Amount';
+    } else {
+        fields.style.display = 'block';
+        maxField.style.display = 'block';
+        minLabel.textContent = 'Min Salary';
+    }
+}
+
+// On page load show salary fields if old value exists
+window.onload = function() {
+    const salaryType = document.querySelector('[name="salary_type"]').value;
+    if (salaryType) toggleSalary(salaryType);
+}
+</script>
 </body>
 </html>

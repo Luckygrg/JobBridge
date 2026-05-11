@@ -152,8 +152,8 @@
                         <span class="badge-type">{{ ucfirst($job->job_type) }}</span>
                         <span class="badge-category">{{ $job->category->name }}</span>
                     </div>
-                    @if($job->salary)
-                        <p class="salary mb-2">{{ $job->salary }}</p>
+                    @if($job->salary_display)
+                        <p class="salary mb-2">{{ $job->salary_display }}</p>
                     @endif
                     <p class="deadline mb-3">Deadline: {{ $job->deadline }}</p>
                     <a href="{{ route('jobs.show', $job->id) }}" class="btn-apply">View Details</a>

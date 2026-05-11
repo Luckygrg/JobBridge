@@ -124,8 +124,8 @@
         <div class="d-flex gap-2 flex-wrap mb-4">
             <span class="badge-type">{{ ucfirst($job->job_type) }}</span>
             <span class="badge-category">{{ $job->category->name }}</span>
-            @if($job->salary)
-                <span class="badge-salary">{{ $job->salary }}</span>
+            @if($job->salary_display)
+                <span class="badge-salary">{{ $job->salary_display }}</span>
             @endif
         </div>
 

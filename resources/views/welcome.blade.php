@@ -173,7 +173,7 @@
                         <span class="badge-type">{{ ucfirst($job->job_type) }}</span>
                         <span class="badge-type ms-1">{{ $job->category->name }}</span>
                     </div>
-                    @if($job->salary)
+                    @if($job->salary_display)
                         <p class="salary mb-2" style="color:#388e3c;font-size:0.85rem;font-weight:600;">{{ $job->salary }}</p>
                     @endif
                     <p class="deadline mb-3">Deadline: {{ $job->deadline }}</p>
