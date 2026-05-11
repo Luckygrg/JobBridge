@@ -47,7 +47,7 @@
 
         .pagination .page-link { color: #00897b; border-color: #e0e0e0; }
         .pagination .page-item.active .page-link { background: #00897b; border-color: #00897b; color: #fff; }
-        .pagination .page-link:hover { background: #e0f2f1; color: #00695c; }
+        .pagination .page-link:hover { background: #e0f2f1; color: #00695c; border-color: #e0e0e0; }
 
         footer { background: #00695c; color: #fff; padding: 30px 0; margin-top: 50px; }
         footer p { margin: 0; opacity: 0.85; font-size: 0.9rem; }
@@ -96,14 +96,16 @@
             <div class="row g-2 align-items-end">
                 <div class="col-md-4">
                     <label class="form-label fw-semibold" style="font-size:0.85rem;">Search</label>
-                    <input type="text" name="search" class="form-control" placeholder="Job title or location..." value="{{ request('search') }}">
+                    <input type="text" name="search" class="form-control"
+                           placeholder="Job title or location..." value="{{ request('search') }}">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label fw-semibold" style="font-size:0.85rem;">Category</label>
                     <select name="category_id" class="form-select">
                         <option value="">All Categories</option>
                         @foreach($categories as $category)
-                            <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                            <option value="{{ $category->id }}"
+                                {{ request('category_id') == $category->id ? 'selected' : '' }}>
                                 {{ $category->name }}
                             </option>
                         @endforeach
@@ -127,7 +129,10 @@
     </div>
 
     <!-- Results Info -->
-    <p class="results-info">Showing {{ $jobs->firstItem() ?? 0 }} - {{ $jobs->lastItem() ?? 0 }} of {{ $jobs->total() }} jobs</p>
+    <p class="results-info">
+        Showing {{ $jobs->firstItem() ?? 0 }} - {{ $jobs->lastItem() ?? 0 }}
+        of {{ $jobs->total() }} jobs
+    </p>
 
     <!-- Jobs Grid -->
     @if($jobs->isEmpty())
@@ -158,7 +163,7 @@
         </div>
 
         <!-- Pagination -->
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center mt-4">
             {{ $jobs->withQueryString()->links() }}
         </div>
     @endif
