@@ -1,21 +1,90 @@
 <!DOCTYPE html>
-<html>
-<head>    <title>Post Job - JobBridge</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Job - JobBridge</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f7fb; }
+
+        .sidebar { width: 250px; min-height: 100vh; background: #00897b; position: fixed; left: 0; top: 0; z-index: 100; }
+        .sidebar-brand { padding: 22px 20px; border-bottom: 1px solid rgba(255,255,255,0.15); }
+        .sidebar-brand span { color: #fff; font-weight: 700; font-size: 1.1rem; }
+        .sidebar-menu { padding: 15px 0; }
+        .sidebar-menu a { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: all 0.3s; }
+        .sidebar-menu a:hover { background: rgba(255,255,255,0.15); color: #fff; }
+        .sidebar-menu a.active { background: rgba(255,255,255,0.2); color: #fff; border-right: 3px solid #fff; }
+        .sidebar-menu a i { font-size: 1.1rem; width: 20px; text-align: center; }
+        .sidebar-footer { position: absolute; bottom: 0; width: 100%; padding: 15px 0; border-top: 1px solid rgba(255,255,255,0.15); }
+        .sidebar-footer form button { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: rgba(255,255,255,0.8); background: none; border: none; font-size: 0.95rem; font-weight: 500; width: 100%; cursor: pointer; transition: all 0.3s; }
+        .sidebar-footer form button:hover { background: rgba(255,255,255,0.15); color: #fff; }
+        .sidebar-footer form button i { font-size: 1.1rem; width: 20px; text-align: center; }
+
+        .main-content { margin-left: 250px; padding: 30px; }
+
+        .topbar { background: #fff; border-radius: 12px; padding: 15px 25px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+        .topbar h5 { margin: 0; font-weight: 700; color: #1a1a2e; }
+        .user-avatar { width: 38px; height: 38px; background: #00897b; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 0.9rem; }
+
+        .content-card { background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); max-width: 800px; }
+
+        .form-control { border: 1.5px solid #e0e0e0; border-radius: 8px; padding: 11px 15px; font-size: 0.9rem; }
+        .form-control:focus { border-color: #00897b; box-shadow: 0 0 0 3px rgba(0,137,123,0.1); }
+        .form-select { border: 1.5px solid #e0e0e0; border-radius: 8px; padding: 11px 15px; font-size: 0.9rem; }
+        .form-select:focus { border-color: #00897b; box-shadow: 0 0 0 3px rgba(0,137,123,0.1); }
+        .form-label { font-weight: 600; color: #444; font-size: 0.88rem; margin-bottom: 6px; }
+        .btn-submit { background: #00897b; color: #fff; border: none; border-radius: 8px; padding: 12px 30px; font-size: 0.95rem; font-weight: 600; }
+        .btn-submit:hover { background: #00695c; color: #fff; }
+        .alert-danger { border-radius: 8px; font-size: 0.88rem; }
+        .section-title { font-size: 1rem; font-weight: 700; color: #1a1a2e; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #e0f2f1; }
+    </style>
 </head>
-<body class="bg-light">
+<body>
 
-<nav class="navbar navbar-dark bg-primary px-4">
-    <span class="navbar-brand fw-bold">JobBridge 🌉</span>
-    <a href="{{ route('employer.jobs.index') }}" class="text-white">← Back to Jobs</a>
-</nav>
+<div class="sidebar">
+    <div class="sidebar-brand">
+        <span>JobBridge</span>
+    </div>
+    <div class="sidebar-menu">
+        <a href="{{ route('employer.dashboard') }}">
+            <i class="bi bi-grid-fill"></i> Dashboard
+        </a>
+        <a href="{{ route('employer.jobs.index') }}">
+            <i class="bi bi-briefcase-fill"></i> My Jobs
+        </a>
+        <a href="{{ route('employer.jobs.create') }}" class="active">
+            <i class="bi bi-plus-circle-fill"></i> Post a Job
+        </a>
+    </div>
+    <div class="sidebar-footer">
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit">
+                <i class="bi bi-box-arrow-left"></i> Logout
+            </button>
+        </form>
+    </div>
+</div>
 
-<div class="container mt-4">
-    <div class="card p-4" style="max-width: 700px; margin: auto;">
-        <h3 class="mb-4">Post a New Job</h3>
+<div class="main-content">
 
+    <div class="topbar">
+        <h5>Post a New Job</h5>
+        <div class="d-flex align-items-center gap-2">
+            <div class="user-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
+            <div>
+                <div style="font-weight:600;font-size:0.9rem;">{{ auth()->user()->name }}</div>
+                <div style="color:#888;font-size:0.8rem;">Employer</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-card">
         @if ($errors->any())
-            <div class="alert alert-danger">
+            <div class="alert alert-danger mb-4">
                 <ul class="mb-0">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -27,62 +96,63 @@
         <form method="POST" action="{{ route('employer.jobs.store') }}">
             @csrf
 
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Job Title</label>
-                <input type="text" name="title" class="form-control" value="{{ old('title') }}" required>
-            </div>
+            <p class="section-title">Job Information</p>
 
             <div class="mb-3">
-                <label class="form-label fw-semibold">Category</label>
-                <select name="category_id" class="form-select" required>
-                    <option value="">-- Select Category --</option>
-                    @foreach($categories as $category)
-                        <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                            {{ $category->name }}
-                        </option>
-                    @endforeach
-                </select>
+                <label class="form-label">Job Title</label>
+                <input type="text" name="title" class="form-control" placeholder="e.g. Laravel Developer" value="{{ old('title') }}" required>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Description</label>
-                <textarea name="description" class="form-control" rows="5" required>{{ old('description') }}</textarea>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label fw-semibold">Location</label>
-                    <input type="text" name="location" class="form-control" value="{{ old('location') }}" required>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label class="form-label fw-semibold">Salary (optional)</label>
-                    <input type="text" name="salary" class="form-control" value="{{ old('salary') }}">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label fw-semibold">Job Type</label>
-                    <select name="job_type" class="form-select" required>
-                        <option value="">-- Select Type --</option>
-                        <option value="full-time">Full Time</option>
-                        <option value="part-time">Part Time</option>
-                        <option value="remote">Remote</option>
-                        <option value="internship">Internship</option>
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Category</label>
+                    <select name="category_id" class="form-select" required>
+                        <option value="">Select Category</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
                     </select>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <label class="form-label fw-semibold">Deadline</label>
-                    <input type="date" name="deadline" class="form-control" value="{{ old('deadline') }}" required>
+                <div class="col-md-6">
+                    <label class="form-label">Job Type</label>
+                    <select name="job_type" class="form-select" required>
+                        <option value="">Select Type</option>
+                        <option value="full-time" {{ old('job_type') == 'full-time' ? 'selected' : '' }}>Full Time</option>
+                        <option value="part-time" {{ old('job_type') == 'part-time' ? 'selected' : '' }}>Part Time</option>
+                        <option value="remote" {{ old('job_type') == 'remote' ? 'selected' : '' }}>Remote</option>
+                        <option value="internship" {{ old('job_type') == 'internship' ? 'selected' : '' }}>Internship</option>
+                    </select>
                 </div>
             </div>
 
-            <div class="d-grid">
-                <button type="submit" class="btn btn-primary py-2">Post Job</button>
+            <div class="mb-3">
+                <label class="form-label">Job Description</label>
+                <textarea name="description" class="form-control" rows="5" placeholder="Describe the job responsibilities and requirements..." required>{{ old('description') }}</textarea>
             </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Location</label>
+                    <input type="text" name="location" class="form-control" placeholder="e.g. Kathmandu, Nepal" value="{{ old('location') }}" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Salary (optional)</label>
+                    <input type="text" name="salary" class="form-control" placeholder="e.g. NPR 50,000" value="{{ old('salary') }}">
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Application Deadline</label>
+                <input type="date" name="deadline" class="form-control" value="{{ old('deadline') }}" required>
+            </div>
+
+            <button type="submit" class="btn-submit">Post Job</button>
         </form>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

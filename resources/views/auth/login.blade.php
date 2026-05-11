@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - JobBridge</title>
-
-    <!-- Favicon -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -18,6 +16,7 @@
         .dropdown-toggle { background: #fff !important; border: none !important; color: #333 !important; font-weight: 500; }
         .dropdown-toggle:hover { color: #00897b !important; }
         .dropdown-item:hover { color: #00897b; background: #e0f2f1; }
+        .dropdown-item { cursor: pointer; }
 
         .main-wrapper { min-height: calc(100vh - 70px); display: flex; align-items: center; justify-content: center; padding: 40px 0; }
         .auth-card { background: #fff; border-radius: 16px; box-shadow: 0 4px 30px rgba(0,0,0,0.08); overflow: hidden; max-width: 900px; width: 100%; display: flex; }
@@ -70,8 +69,8 @@
                         For Jobseekers
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#" onclick="showSeekerLogin()">Login</a></li>
-                        <li><a class="dropdown-item" href="#" onclick="showSeekerRegister()">Create Account</a></li>
+                        <li><a class="dropdown-item" onclick="showSeekerLogin(); return false;">Login</a></li>
+                        <li><a class="dropdown-item" onclick="showSeekerRegister(); return false;">Create Account</a></li>
                     </ul>
                 </div>
                 <div style="width:1px;height:30px;background:#ddd;"></div>
@@ -80,8 +79,8 @@
                         For Employers
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#" onclick="showEmployerLogin()">Login</a></li>
-                        <li><a class="dropdown-item" href="#" onclick="setEmployerRegister()">Register</a></li>
+                        <li><a class="dropdown-item" onclick="showEmployerLogin(); return false;">Login</a></li>
+                        <li><a class="dropdown-item" onclick="setEmployerRegister(); return false;">Register</a></li>
                     </ul>
                 </div>
             </div>
@@ -129,11 +128,13 @@
                         @csrf
                         <div class="mb-3">
                             <label class="form-label">Email Address</label>
-                            <input type="email" name="email" class="form-control" placeholder="Enter your email" value="{{ old('email') }}" required>
+                            <input type="email" name="email" class="form-control"
+                                   placeholder="Enter your email" value="{{ old('email') }}" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Password</label>
-                            <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
+                            <input type="password" name="password" class="form-control"
+                                   placeholder="Enter your password" required>
                         </div>
                         <div class="mb-4 d-flex justify-content-between align-items-center">
                             <div class="form-check">
@@ -152,29 +153,31 @@
                     </form>
                 </div>
 
-                <!-- ===== JOBSEEKER REGISTER FORM ===== -->
+                <!-- Seeker Register Form -->
                 <div id="seekerRegisterForm" style="display:none;">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
                         <input type="hidden" name="role" value="seeker">
-
                         <div class="mb-3">
                             <label class="form-label">Full Name</label>
-                            <input type="text" name="name" class="form-control" placeholder="Enter your full name" value="{{ old('name') }}" required>
+                            <input type="text" name="name" class="form-control"
+                                   placeholder="Enter your full name" value="{{ old('name') }}" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Email Address</label>
-                            <input type="email" name="email" class="form-control" placeholder="Enter your email" value="{{ old('email') }}" required>
+                            <input type="email" name="email" class="form-control"
+                                   placeholder="Enter your email" value="{{ old('email') }}" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Password</label>
-                            <input type="password" name="password" class="form-control" placeholder="Create a password" required>
+                            <input type="password" name="password" class="form-control"
+                                   placeholder="Create a password" required>
                         </div>
                         <div class="mb-4">
                             <label class="form-label">Confirm Password</label>
-                            <input type="password" name="password_confirmation" class="form-control" placeholder="Confirm your password" required>
+                            <input type="password" name="password_confirmation" class="form-control"
+                                   placeholder="Confirm your password" required>
                         </div>
-
                         <button type="submit" class="btn-submit mb-3">Create Account</button>
                         <p class="text-center text-muted" style="font-size:0.9rem;">
                             Already have an account?
@@ -183,37 +186,41 @@
                     </form>
                 </div>
 
-                <!-- ===== EMPLOYER REGISTER FORM ===== -->
+                <!-- Employer Register Form -->
                 <div id="employerRegisterForm" style="display:none;">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
                         <input type="hidden" name="role" value="employer">
-
                         <div class="mb-3">
                             <label class="form-label">Full Name</label>
-                            <input type="text" name="name" class="form-control" placeholder="Enter your full name" value="{{ old('name') }}" required>
+                            <input type="text" name="name" class="form-control"
+                                   placeholder="Enter your full name" value="{{ old('name') }}" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Company Name</label>
-                            <input type="text" name="company_name" class="form-control" placeholder="Enter your company name" value="{{ old('company_name') }}" required>
+                            <input type="text" name="company_name" class="form-control"
+                                   placeholder="Enter your company name" value="{{ old('company_name') }}" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Work Email</label>
-                            <input type="email" name="email" class="form-control" placeholder="Enter your work email" value="{{ old('email') }}" required>
+                            <input type="email" name="email" class="form-control"
+                                   placeholder="Enter your work email" value="{{ old('email') }}" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Phone Number</label>
-                            <input type="text" name="company_phone" class="form-control" placeholder="Enter your phone number" value="{{ old('company_phone') }}" required>
+                            <input type="text" name="company_phone" class="form-control"
+                                   placeholder="Enter your phone number" value="{{ old('company_phone') }}" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Password</label>
-                            <input type="password" name="password" class="form-control" placeholder="Create a password" required>
+                            <input type="password" name="password" class="form-control"
+                                   placeholder="Create a password" required>
                         </div>
                         <div class="mb-4">
                             <label class="form-label">Confirm Password</label>
-                            <input type="password" name="password_confirmation" class="form-control" placeholder="Confirm your password" required>
+                            <input type="password" name="password_confirmation" class="form-control"
+                                   placeholder="Confirm your password" required>
                         </div>
-
                         <button type="submit" class="btn-submit mb-3">Create Employer Account</button>
                         <p class="text-center text-muted" style="font-size:0.9rem;">
                             Already have an account?
@@ -229,87 +236,90 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    var currentRole = 'seeker';
+var currentRole = 'seeker';
 
-    function setTabActive(tab) {
-        document.getElementById('loginTab').classList.toggle('active', tab === 'login');
-        document.getElementById('registerTab').classList.toggle('active', tab === 'register');
-    }
+function setTabActive(tab) {
+    document.getElementById('loginTab').classList.toggle('active', tab === 'login');
+    document.getElementById('registerTab').classList.toggle('active', tab === 'register');
+}
 
-    function hideAllForms() {
-        document.getElementById('loginForm').style.display = 'none';
-        document.getElementById('seekerRegisterForm').style.display = 'none';
-        document.getElementById('employerRegisterForm').style.display = 'none';
-    }
+function hideAllForms() {
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('seekerRegisterForm').style.display = 'none';
+    document.getElementById('employerRegisterForm').style.display = 'none';
+}
 
-    function onLoginTabClick() {
-        hideAllForms();
-        setTabActive('login');
-        document.getElementById('loginForm').style.display = 'block';
-    }
+function onLoginTabClick() {
+    hideAllForms();
+    setTabActive('login');
+    document.getElementById('loginForm').style.display = 'block';
+}
 
-    function onRegisterTabClick() {
-        hideAllForms();
-        setTabActive('register');
-        if (currentRole === 'employer') {
-            document.getElementById('employerRegisterForm').style.display = 'block';
-        } else {
-            document.getElementById('seekerRegisterForm').style.display = 'block';
-        }
-    }
-
-    function setSeekerContext() {
-        currentRole = 'seeker';
-        document.getElementById('panelTitle').textContent = 'Jobseeker!';
-        document.getElementById('panelSubtitle').textContent = 'Welcome to JobBridge. Login or create your account below.';
-        document.getElementById('leftTitle').textContent = 'Welcome to JobBridge!';
-        document.getElementById('leftSubtitle').textContent = 'Find your dream job or hire the right talent. Your career journey starts here!';
-    }
-
-    function setEmployerContext() {
-        currentRole = 'employer';
-        document.getElementById('panelTitle').textContent = 'Employer!';
-        document.getElementById('panelSubtitle').textContent = 'Welcome to JobBridge. Create your employer account below.';
-        document.getElementById('leftTitle').textContent = 'Welcome, Employer!';
-        document.getElementById('leftSubtitle').textContent = 'Post jobs and find the right talent for your company!';
-    }
-
-    function showSeekerLogin() {
-        setSeekerContext();
-        hideAllForms();
-        setTabActive('login');
-        document.getElementById('loginForm').style.display = 'block';
-    }
-
-    function showSeekerRegister() {
-        setSeekerContext();
-        hideAllForms();
-        setTabActive('register');
+function onRegisterTabClick() {
+    hideAllForms();
+    setTabActive('register');
+    if (currentRole === 'employer') {
+        document.getElementById('employerRegisterForm').style.display = 'block';
+    } else {
         document.getElementById('seekerRegisterForm').style.display = 'block';
     }
+}
 
-    function showEmployerLogin() {
-        setEmployerContext();
-        hideAllForms();
-        setTabActive('login');
-        document.getElementById('loginForm').style.display = 'block';
-    }
+function setSeekerContext() {
+    currentRole = 'seeker';
+    document.getElementById('panelTitle').textContent = 'Jobseeker!';
+    document.getElementById('panelSubtitle').textContent = 'Welcome to JobBridge. Login or create your account below.';
+    document.getElementById('leftTitle').textContent = 'Welcome to JobBridge!';
+    document.getElementById('leftSubtitle').textContent = 'Find your dream job or hire the right talent. Your career journey starts here!';
+}
 
-    function setEmployerRegister() {
-        setEmployerContext();
-        hideAllForms();
-        setTabActive('register');
-        document.getElementById('employerRegisterForm').style.display = 'block';
-    }
+function setEmployerContext() {
+    currentRole = 'employer';
+    document.getElementById('panelTitle').textContent = 'Employer!';
+    document.getElementById('panelSubtitle').textContent = 'Welcome to JobBridge. Create your employer account below.';
+    document.getElementById('leftTitle').textContent = 'Welcome, Employer!';
+    document.getElementById('leftSubtitle').textContent = 'Post jobs and find the right talent for your company!';
+}
 
-    window.onload = function() {
-        if (window.location.search.includes('type=employer')) {
-            showEmployerLogin();
-        }
-        if (window.location.search.includes('register=employer')) {
-            setEmployerRegister();
-        }
+function showSeekerLogin() {
+    setSeekerContext();
+    hideAllForms();
+    setTabActive('login');
+    document.getElementById('loginForm').style.display = 'block';
+}
+
+function showSeekerRegister() {
+    setSeekerContext();
+    hideAllForms();
+    setTabActive('register');
+    document.getElementById('seekerRegisterForm').style.display = 'block';
+}
+
+function showEmployerLogin() {
+    setEmployerContext();
+    hideAllForms();
+    setTabActive('login');
+    document.getElementById('loginForm').style.display = 'block';
+}
+
+function setEmployerRegister() {
+    setEmployerContext();
+    hideAllForms();
+    setTabActive('register');
+    document.getElementById('employerRegisterForm').style.display = 'block';
+}
+
+window.onload = function() {
+    if (window.location.search.includes('type=employer')) {
+        showEmployerLogin();
     }
+    if (window.location.search.includes('register=employer')) {
+        setEmployerRegister();
+    }
+    if (window.location.search.includes('register=seeker')) {
+        showSeekerRegister();
+    }
+}
 </script>
 </body>
 </html>

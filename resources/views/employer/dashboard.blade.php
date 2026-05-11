@@ -1,75 +1,155 @@
 <!DOCTYPE html>
-<html>
-<head>    <title>Employer Dashboard - JobBridge</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employer Dashboard - JobBridge</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body class="bg-light">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f7fb; }
 
-<nav class="navbar navbar-dark bg-primary px-4">
-    <span class="navbar-brand fw-bold">JobBridge </span>
-    <div class="d-flex align-items-center gap-3">
-        <a href="{{ route('employer.jobs.index') }}" class="text-white">My Jobs</a>
-        <a href="{{ route('employer.jobs.create') }}" class="btn btn-light btn-sm">+ Post Job</a>
+        .sidebar { width: 250px; min-height: 100vh; background: #00897b; position: fixed; left: 0; top: 0; z-index: 100; }
+        .sidebar-brand { padding: 22px 20px; border-bottom: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; gap: 10px; }
+        .sidebar-brand span { color: #fff; font-weight: 700; font-size: 1.1rem; }
+        .sidebar-menu { padding: 15px 0; }
+        .sidebar-menu a { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: all 0.3s; }
+        .sidebar-menu a:hover { background: rgba(255,255,255,0.15); color: #fff; }
+        .sidebar-menu a.active { background: rgba(255,255,255,0.2); color: #fff; border-right: 3px solid #fff; }
+        .sidebar-menu a i { font-size: 1.1rem; width: 20px; text-align: center; }
+        .sidebar-footer { position: absolute; bottom: 0; width: 100%; padding: 15px 0; border-top: 1px solid rgba(255,255,255,0.15); }
+        .sidebar-footer form button { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: rgba(255,255,255,0.8); background: none; border: none; font-size: 0.95rem; font-weight: 500; width: 100%; cursor: pointer; transition: all 0.3s; }
+        .sidebar-footer form button:hover { background: rgba(255,255,255,0.15); color: #fff; }
+        .sidebar-footer form button i { font-size: 1.1rem; width: 20px; text-align: center; }
+
+        .main-content { margin-left: 250px; padding: 30px; }
+
+        .topbar { background: #fff; border-radius: 12px; padding: 15px 25px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+        .topbar h5 { margin: 0; font-weight: 700; color: #1a1a2e; }
+        .user-avatar { width: 38px; height: 38px; background: #00897b; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 0.9rem; }
+
+        .stat-card { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); border-left: 4px solid; height: 100%; }
+        .stat-card.teal { border-color: #00897b; }
+        .stat-card.blue { border-color: #1976d2; }
+        .stat-card.orange { border-color: #f57c00; }
+        .stat-card .label { color: #888; font-size: 0.85rem; font-weight: 500; margin-bottom: 8px; }
+        .stat-card .value { font-size: 2rem; font-weight: 700; color: #1a1a2e; margin-bottom: 0; }
+        .stat-card .icon-box { width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+        .stat-card.teal .icon-box { background: #e0f2f1; color: #00897b; }
+        .stat-card.blue .icon-box { background: #e3f2fd; color: #1976d2; }
+        .stat-card.orange .icon-box { background: #fff3e0; color: #f57c00; }
+
+        .chart-card { background: #fff; border-radius: 12px; padding: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+        .chart-card h6 { font-weight: 700; color: #1a1a2e; margin-bottom: 20px; font-size: 1rem; }
+        .quick-links h6 { font-weight: 700; color: #1a1a2e; margin-bottom: 15px; }
+        .quick-link-btn { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 0.9rem; margin-bottom: 10px; transition: all 0.3s; }
+        .quick-link-btn.teal { background: #e0f2f1; color: #00695c; }
+        .quick-link-btn.teal:hover { background: #00897b; color: #fff; }
+        .quick-link-btn.blue { background: #e3f2fd; color: #1565c0; }
+        .quick-link-btn.blue:hover { background: #1976d2; color: #fff; }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="sidebar-brand">
+        <span>JobBridge</span>
+    </div>
+    <div class="sidebar-menu">
+        <a href="{{ route('employer.dashboard') }}" class="active">
+            <i class="bi bi-grid-fill"></i> Dashboard
+        </a>
+        <a href="{{ route('employer.jobs.index') }}">
+            <i class="bi bi-briefcase-fill"></i> My Jobs
+        </a>
+        <a href="{{ route('employer.jobs.create') }}">
+            <i class="bi bi-plus-circle-fill"></i> Post a Job
+        </a>
+    </div>
+    <div class="sidebar-footer">
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
+            <button type="submit">
+                <i class="bi bi-box-arrow-left"></i> Logout
+            </button>
         </form>
-    </div>
-</nav>
-
-<div class="container mt-5">
-    <h2>Welcome, {{ auth()->user()->name }}! </h2>
-    <p class="text-muted">You are logged in as <strong>Employer</strong></p>
-
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <div class="card text-white bg-primary mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Jobs Posted</h5>
-                    <h2>{{ $jobsPosted }}</h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card text-white bg-success mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Total Applicants</h5>
-                    <h2>{{ $totalApplicants }}</h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card text-white bg-warning mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Pending Reviews</h5>
-                    <h2>{{ $pendingReviews }}</h2>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mt-3">
-        <div class="col-md-6">
-            <div class="card p-3">
-                <h5 class="mb-3">Application Status</h5>
-                <canvas id="applicationChart"></canvas>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card p-3">
-                <h5 class="mb-3">Jobs Overview</h5>
-                <canvas id="jobsChart"></canvas>
-            </div>
-        </div>
-    </div>
-
-    <div class="mt-3">
-        <a href="{{ route('employer.jobs.create') }}" class="btn btn-primary me-2">+ Post a Job</a>
-        <a href="{{ route('employer.jobs.index') }}" class="btn btn-outline-primary">View My Jobs</a>
     </div>
 </div>
 
+<div class="main-content">
+
+    <div class="topbar">
+        <h5>Dashboard Overview</h5>
+        <div class="d-flex align-items-center gap-2">
+            <div class="user-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
+            <div>
+                <div style="font-weight:600;font-size:0.9rem;">{{ auth()->user()->name }}</div>
+                <div style="color:#888;font-size:0.8rem;">Employer</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="stat-card teal d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="label">Jobs Posted</p>
+                    <p class="value">{{ $jobsPosted }}</p>
+                </div>
+                <div class="icon-box"><i class="bi bi-briefcase-fill"></i></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card blue d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="label">Total Applicants</p>
+                    <p class="value">{{ $totalApplicants }}</p>
+                </div>
+                <div class="icon-box"><i class="bi bi-people-fill"></i></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card orange d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="label">Pending Reviews</p>
+                    <p class="value">{{ $pendingReviews }}</p>
+                </div>
+                <div class="icon-box"><i class="bi bi-hourglass-split"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="chart-card">
+                <h6>Application Status</h6>
+                <canvas id="applicationChart" height="220"></canvas>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="chart-card">
+                <h6>Jobs Overview</h6>
+                <canvas id="jobsChart" height="220"></canvas>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="chart-card quick-links">
+                <h6>Quick Links</h6>
+                <a href="{{ route('employer.jobs.create') }}" class="quick-link-btn teal">
+                    <i class="bi bi-plus-circle-fill"></i> Post a Job
+                </a>
+                <a href="{{ route('employer.jobs.index') }}" class="quick-link-btn blue">
+                    <i class="bi bi-briefcase-fill"></i> View My Jobs
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 const applicationChart = new Chart(document.getElementById('applicationChart'), {
     type: 'doughnut',
@@ -77,10 +157,15 @@ const applicationChart = new Chart(document.getElementById('applicationChart'), 
         labels: ['Pending', 'Accepted', 'Rejected'],
         datasets: [{
             data: [{{ $pendingReviews }}, {{ $accepted }}, {{ $rejected }}],
-            backgroundColor: ['#ffc107', '#198754', '#dc3545'],
+            backgroundColor: ['#f57c00', '#00897b', '#c62828'],
+            borderWidth: 0,
         }]
     },
-    options: { responsive: true }
+    options: {
+        responsive: true,
+        plugins: { legend: { position: 'bottom' } },
+        cutout: '65%'
+    }
 });
 
 const jobsChart = new Chart(document.getElementById('jobsChart'), {
@@ -90,12 +175,20 @@ const jobsChart = new Chart(document.getElementById('jobsChart'), {
         datasets: [{
             label: 'Count',
             data: [{{ $jobsPosted }}, {{ $totalApplicants }}, {{ $pendingReviews }}],
-            backgroundColor: ['#0d6efd', '#198754', '#ffc107'],
+            backgroundColor: ['#00897b', '#1976d2', '#f57c00'],
+            borderRadius: 8,
+            borderWidth: 0,
         }]
     },
-    options: { responsive: true }
+    options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+            y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#f0f0f0' } },
+            x: { grid: { display: false } }
+        }
+    }
 });
 </script>
-
 </body>
 </html>
