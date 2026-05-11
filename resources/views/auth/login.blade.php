@@ -45,6 +45,8 @@
         .forgot-link:hover { text-decoration: underline; }
         .bottom-link { color: #00897b; font-weight: 600; text-decoration: none; cursor: pointer; }
         .bottom-link:hover { text-decoration: underline; }
+        .admin-link { color: #aaa; font-size: 0.82rem; cursor: pointer; text-decoration: none; }
+        .admin-link:hover { color: #00897b; }
         .alert-danger { border-radius: 8px; font-size: 0.88rem; }
     </style>
 </head>
@@ -61,6 +63,9 @@
             <ul class="navbar-nav me-auto ms-4">
                 <li class="nav-item">
                     <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('jobs.index') }}">Browse Jobs</a>
                 </li>
             </ul>
             <div class="d-flex gap-3 align-items-center">
@@ -146,9 +151,12 @@
                             @endif
                         </div>
                         <button type="submit" class="btn-submit mb-3">Login</button>
-                        <p class="text-center text-muted" style="font-size:0.9rem;">
+                        <p class="text-center text-muted mb-2" style="font-size:0.9rem;">
                             New to JobBridge?
                             <a onclick="onRegisterTabClick()" class="bottom-link">Create Account</a>
+                        </p>
+                        <p class="text-center mb-0">
+                            <a onclick="showAdminLogin()" class="admin-link">Admin Login</a>
                         </p>
                     </form>
                 </div>
@@ -309,6 +317,18 @@ function setEmployerRegister() {
     document.getElementById('employerRegisterForm').style.display = 'block';
 }
 
+function showAdminLogin() {
+    currentRole = 'admin';
+    document.getElementById('panelTitle').textContent = 'Admin!';
+    document.getElementById('panelSubtitle').textContent = 'Enter your admin credentials to access the admin panel.';
+    document.getElementById('leftTitle').textContent = 'Admin Panel';
+    document.getElementById('leftSubtitle').textContent = 'Manage users, jobs and applications on JobBridge.';
+    hideAllForms();
+    setTabActive('login');
+    document.getElementById('loginForm').style.display = 'block';
+    document.getElementById('registerTab').style.display = 'none';
+}
+
 window.onload = function() {
     if (window.location.search.includes('type=employer')) {
         showEmployerLogin();
@@ -318,6 +338,9 @@ window.onload = function() {
     }
     if (window.location.search.includes('register=seeker')) {
         showSeekerRegister();
+    }
+    if (window.location.search.includes('type=admin')) {
+        showAdminLogin();
     }
 }
 </script>
