@@ -57,17 +57,17 @@
     </div>
     <div class="sidebar-menu">
         <a href="{{ route('admin.dashboard') }}">
-            <span class="icon">&#9632;</span> Dashboard
+            Dashboard
         </a>
         <a href="{{ route('admin.users') }}" class="active">
-            <span class="icon">&#9632;</span> Manage Users
+            Manage Users
         </a>
         <a href="{{ route('admin.jobs') }}">
-            <span class="icon">&#9632;</span> Manage Jobs
+            Manage Jobs
         </a>
         <a href="{{ route('logout') }}"
            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-            <span class="icon">&#9632;</span> Logout
+            Logout
         </a>
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
             @csrf

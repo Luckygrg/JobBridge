@@ -14,6 +14,6 @@ class SeekerController extends Controller
         $accepted = Application::where('user_id', auth()->id())->where('status', 'accepted')->count();
         $rejected = Application::where('user_id', auth()->id())->where('status', 'rejected')->count();
 
-        return view('seeker.dashboard', compact('jobsApplied', 'pending', 'accepted', 'rejected'));
+        return view('dashboard', compact('jobsApplied', 'pending', 'accepted', 'rejected'));
     }
 }
