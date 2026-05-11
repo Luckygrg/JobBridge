@@ -7,14 +7,7 @@ use App\Http\Controllers\Employer\JobController;
 use App\Http\Controllers\Seeker\SeekerController;
 
 // Home
-Route::get('/', function () {
-    $featuredJobs = \App\Models\JobListing::where('status', 'active')
-                    ->with('category', 'employer')
-                    ->latest()
-                    ->take(3)
-                    ->get();
-    return view('welcome', compact('featuredJobs'));
-});
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Redirect /dashboard to role based dashboard
 Route::get('/dashboard', function () {

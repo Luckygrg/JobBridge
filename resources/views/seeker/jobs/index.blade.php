@@ -89,9 +89,17 @@
         </div>
         @endforeach
     </div>
-    <div class="d-flex justify-content-center mt-4">
-        {{ $jobs->withQueryString()->links() }}
+    @if($jobs->hasPages())
+    <div class="d-flex justify-content-end mt-4">
+        <ul class="pagination pagination-sm mb-0">
+            @for($i = 1; $i <= $jobs->lastPage(); $i++)
+                <li class="page-item {{ $jobs->currentPage() == $i ? 'active' : '' }}">
+                    <a class="page-link" href="{{ $jobs->appends(request()->except('page'))->url($i) }}">{{ $i }}</a>
+                </li>
+            @endfor
+        </ul>
     </div>
+    @endif
 @endif
 
 @endsection

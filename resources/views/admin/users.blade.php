@@ -70,9 +70,17 @@
             @endforeach
         </tbody>
     </table>
-    <div class="d-flex justify-content-center mt-4">
-        {{ $users->withQueryString()->links() }}
+    @if($users->hasPages())
+    <div class="d-flex justify-content-end mt-4">
+        <ul class="pagination pagination-sm mb-0">
+            @for($i = 1; $i <= $users->lastPage(); $i++)
+                <li class="page-item {{ $users->currentPage() == $i ? 'active' : '' }}">
+                    <a class="page-link" href="{{ $users->appends(request()->except('page'))->url($i) }}">{{ $i }}</a>
+                </li>
+            @endfor
+        </ul>
     </div>
+    @endif
 </div>
 
 @endsection
