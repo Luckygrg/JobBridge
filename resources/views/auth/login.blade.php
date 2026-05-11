@@ -6,15 +6,13 @@
     <title>Login - JobBridge</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('images/JobBridge_Logo_BG.png') }}">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; }
 
         .navbar { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 15px 0; }
-        .navbar-brand img { height: 40px; width: auto; }
+        .navbar-brand { font-size: 1.5rem; font-weight: 700; color: #00897b !important; }
         .nav-link { color: #333 !important; font-weight: 500; }
         .nav-link:hover { color: #00897b !important; }
         .dropdown-toggle { background: #fff !important; border: none !important; color: #333 !important; font-weight: 500; }
@@ -27,7 +25,6 @@
         .left-panel { background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%); flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px 30px; text-align: center; }
         .left-panel h2 { color: #00897b; font-weight: 700; font-size: 1.8rem; margin-bottom: 10px; }
         .left-panel p { color: #555; font-size: 0.95rem; }
-        .illustration { font-size: 8rem; margin-bottom: 20px; }
 
         .right-panel { flex: 1; padding: 50px 40px; overflow-y: auto; max-height: 100vh; }
         .right-panel h3 { color: #1a1a2e; font-weight: 700; font-size: 1.5rem; margin-bottom: 5px; }
@@ -57,10 +54,7 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container">
-        <!-- Logo image instead of text -->
-        <a class="navbar-brand" href="/">
-            <img src="{{ asset('images/JobBridge_Logo.png') }}" alt="JobBridge Logo">
-        </a>
+        <a class="navbar-brand" href="/">JobBridge</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -102,7 +96,6 @@
 
             <!-- Left Panel -->
             <div class="left-panel d-none d-md-flex">
-                <div class="illustration">💼</div>
                 <h2 id="leftTitle">Welcome to JobBridge!</h2>
                 <p id="leftSubtitle">Find your dream job or hire the right talent. Your career journey starts here!</p>
             </div>

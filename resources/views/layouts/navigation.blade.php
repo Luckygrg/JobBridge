@@ -5,9 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <img src="{{ asset('images/JobBridge_Logo.png') }}" alt="JobBridge" class="block h-9 w-auto">
-                    </a>
+                    <a href="{{ route('dashboard') }}" class="text-xl font-bold" style="color:#00897b;text-decoration:none;">JobBridge</a>
                 </div>
 
                 <!-- Navigation Links -->

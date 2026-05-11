@@ -3,26 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Browse Jobs - JobBridge</title>
-    <link rel="icon" type="image/png" href="{{ asset('images/JobBridge_Logo_BG.png') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Browse Jobs - JobBridge</title>    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', sans-serif; background: #f5f7fb; }
 
-       .navbar { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 15px 0 !important; position: sticky; top: 0; z-index: 100; }
-        .navbar-brand { font-size: 1.4rem; font-weight: 700; color: #00897b !important; }
-        .nav-link { color: #333 !important; font-weight: 500; font-size: 0.95rem; }
-        .nav-link:hover { color: #00897b !important; }
-        .nav-link.active { color: #00897b !important; font-weight: 600; }
-        .btn-logout { border: 1.5px solid #00897b; color: #00897b; border-radius: 20px; padding: 6px 18px; font-weight: 600; font-size: 0.88rem; }
-        .btn-logout:hover { background: #00897b; color: #fff; }
-
-        .main-content { padding: 30px 0; }
-
-        .page-header { background: linear-gradient(135deg, #00897b, #00695c); border-radius: 14px; padding: 25px 30px; color: #fff; margin-bottom: 25px; }
-        .page-header h4 { font-weight: 700; margin-bottom: 4px; }
-        .page-header p { opacity: 0.85; margin: 0; font-size: 0.95rem; }
+        /* Sidebar */
+        .sidebar { width: 250px; min-height: 100vh; background: #00897b; position: fixed; left: 0; top: 0; z-index: 100; }
+        .sidebar-brand { padding: 22px 20px; border-bottom: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; gap: 10px; }
+        .sidebar-brand img { height: 38px; width: auto; }
+        .sidebar-brand span { color: #fff; font-weight: 700; font-size: 1.1rem; }
+        .sidebar-menu { padding: 15px 0; }
+        .sidebar-menu a { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: all 0.3s; }
+        .sidebar-menu a:hover { background: rgba(255,255,255,0.15); color: #fff; }
+        .sidebar-menu a.active { background: rgba(255,255,255,0.2); color: #fff; border-right: 3px solid #fff; }
+        .sidebar-menu a i { font-size: 1.1rem; width: 20px; text-align: center; }
+        .sidebar-footer { position: absolute; bottom: 0; width: 100%; padding: 15px 0; border-top: 1px solid rgba(255,255,255,0.15); }
+        .sidebar-footer form button { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: rgba(255,255,255,0.8); background: none; border: none; font-size: 0.95rem; font-weight: 500; width: 100%; cursor: pointer; transition: all 0.3s; }
+        .sidebar-footer form button:hover { background: rgba(255,255,255,0.15); color: #fff; }
+        .sidebar-footer form button i { font-size: 1.1rem; width: 20px; text-align: center; }
+        .main-content { margin-left: 250px; padding: 30px; }
+        .topbar { background: #fff; border-radius: 12px; padding: 15px 25px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+        .topbar h5 { margin: 0; font-weight: 700; color: #1a1a2e; }
+        .user-avatar { width: 38px; height: 38px; background: #00897b; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 0.9rem; }
 
         .search-card { background: #fff; border-radius: 12px; padding: 20px 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); margin-bottom: 25px; }
         .form-control { border: 1.5px solid #e0e0e0; border-radius: 8px; padding: 10px 15px; font-size: 0.9rem; }
@@ -50,42 +54,46 @@
 </head>
 <body>
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg">
-    <div class="container">
-        <a class="navbar-brand" href="/">JobBridge</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto ms-4">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('seeker.dashboard') }}">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="{{ route('seeker.jobs') }}">Browse Jobs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('seeker.applications') }}">My Applications</a>
-                </li>
-            </ul>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="btn btn-logout">Logout</button>
-            </form>
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-brand">
+        <span>JobBridge</span>
+    </div>
+    <div class="sidebar-menu">
+        <a href="{{ route('seeker.dashboard') }}">
+            <i class="bi bi-grid-fill"></i> Dashboard
+        </a>
+        <a href="{{ route('seeker.jobs') }}" class="active">
+            <i class="bi bi-briefcase-fill"></i> Browse Jobs
+        </a>
+        <a href="{{ route('seeker.applications') }}">
+            <i class="bi bi-file-earmark-text-fill"></i> My Applications
+        </a>
+    </div>
+    <div class="sidebar-footer">
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit">
+                <i class="bi bi-box-arrow-left"></i> Logout
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+
+    <!-- Topbar -->
+    <div class="topbar">
+        <h5>Browse Jobs</h5>
+        <div class="d-flex align-items-center gap-2">
+            <div class="user-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
+            <div>
+                <div style="font-weight:600;font-size:0.9rem;">{{ auth()->user()->name }}</div>
+                <div style="color:#888;font-size:0.8rem;">Job Seeker</div>
+            </div>
         </div>
     </div>
-</nav>
-
-<!-- Main -->
-<div class="main-content">
-    <div class="container">
-
-        <!-- Page Header -->
-        <div class="page-header">
-            <h4>Browse Jobs</h4>
-            <p>Find the perfect job that matches your skills and interests.</p>
-        </div>
 
         <!-- Search & Filter -->
         <div class="search-card">
@@ -152,7 +160,6 @@
             </div>
         @endif
 
-    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
