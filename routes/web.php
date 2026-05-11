@@ -51,6 +51,8 @@ Route::middleware(['auth', 'seeker'])->prefix('seeker')->name('seeker.')->group(
     Route::get('/jobs/{job}', [App\Http\Controllers\Seeker\JobController::class, 'show'])->name('jobs.show');
     Route::post('/jobs/{job}/apply', [App\Http\Controllers\Seeker\JobController::class, 'apply'])->name('jobs.apply');
     Route::get('/applications', [App\Http\Controllers\Seeker\JobController::class, 'applications'])->name('applications');
+    Route::get('/profile', [App\Http\Controllers\Seeker\ProfileController::class, 'edit'])->name('profile');
+    Route::put('/profile', [App\Http\Controllers\Seeker\ProfileController::class, 'update'])->name('profile.update');
 });
 
 // Admin Routes

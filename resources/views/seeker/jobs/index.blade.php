@@ -69,6 +69,9 @@
         <a href="{{ route('seeker.applications') }}">
             <i class="bi bi-file-earmark-text-fill"></i> My Applications
         </a>
+        <a href="{{ route('seeker.applications') }}">
+    <i class="bi bi-file-earmark-text-fill"></i> My Applications
+</a>
     </div>
     <div class="sidebar-footer">
         <form method="POST" action="{{ route('logout') }}">
