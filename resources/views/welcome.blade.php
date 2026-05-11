@@ -164,45 +164,31 @@
     <div class="container">
         <h2 class="section-title mb-4">Featured Jobs</h2>
         <div class="row g-3">
+            @forelse($featuredJobs as $job)
             <div class="col-md-4">
                 <div class="job-card">
-                    <h6>Laravel Developer</h6>
-                    <p class="company mb-1">TechCorp Nepal</p>
-                    <p class="location mb-2">Kathmandu, Nepal</p>
+                    <h6>{{ $job->title }}</h6>
+                    <p class="company mb-1">{{ $job->employer->name }}</p>
+                    <p class="location mb-2">{{ $job->location }}</p>
                     <div class="mb-2">
-                        <span class="badge-type">Full Time</span>
-                        <span class="badge-type ms-1">IT & Software</span>
+                        <span class="badge-type">{{ ucfirst($job->job_type) }}</span>
+                        <span class="badge-type ms-1">{{ $job->category->name }}</span>
                     </div>
-                    <p class="deadline">Deadline: 2026-08-31</p>
+                    @if($job->salary)
+                        <p class="salary mb-2" style="color:#388e3c;font-size:0.85rem;font-weight:600;">{{ $job->salary }}</p>
+                    @endif
+                    <p class="deadline mb-3">Deadline: {{ $job->deadline }}</p>
+                    <a href="{{ route('jobs.show', $job->id) }}" class="btn btn-register btn-sm">View Details</a>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="job-card">
-                    <h6>Marketing Manager</h6>
-                    <p class="company mb-1">Digital Nepal Pvt. Ltd.</p>
-                    <p class="location mb-2">Pokhara, Nepal</p>
-                    <div class="mb-2">
-                        <span class="badge-type">Full Time</span>
-                        <span class="badge-type ms-1">Marketing</span>
-                    </div>
-                    <p class="deadline">Deadline: 2026-07-15</p>
+            @empty
+                <div class="col-12">
+                    <p class="text-muted text-center">No jobs available yet. Check back soon!</p>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="job-card">
-                    <h6>Finance Officer</h6>
-                    <p class="company mb-1">Nepal Bank Ltd.</p>
-                    <p class="location mb-2">Lalitpur, Nepal</p>
-                    <div class="mb-2">
-                        <span class="badge-type">Full Time</span>
-                        <span class="badge-type ms-1">Finance</span>
-                    </div>
-                    <p class="deadline">Deadline: 2026-06-30</p>
-                </div>
-            </div>
+            @endforelse
         </div>
         <div class="text-center mt-4">
-            <a href="{{ route('register') }}" class="btn btn-register px-4 py-2">View All Jobs</a>
+            <a href="{{ route('jobs.index') }}" class="btn btn-register px-4 py-2">View All Jobs</a>
         </div>
     </div>
 </section>
