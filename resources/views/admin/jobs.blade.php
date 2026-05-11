@@ -1,30 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>    <meta charset="UTF-8">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Jobs - JobBridge Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', sans-serif; background: #f5f7fb; }
 
         .sidebar { width: 250px; min-height: 100vh; background: #00897b; position: fixed; left: 0; top: 0; z-index: 100; }
-        .sidebar-brand { padding: 25px 20px; border-bottom: 1px solid rgba(255,255,255,0.15); }
-        .sidebar-brand h4 { color: #fff; font-weight: 700; margin: 0; font-size: 1.3rem; }
+        .sidebar-brand { padding: 22px 20px; border-bottom: 1px solid rgba(255,255,255,0.15); }
+        .sidebar-brand span { color: #fff; font-weight: 700; font-size: 1.1rem; }
         .sidebar-brand p { color: rgba(255,255,255,0.7); font-size: 0.8rem; margin: 0; }
         .sidebar-menu { padding: 15px 0; }
         .sidebar-menu a { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: all 0.3s; }
         .sidebar-menu a:hover { background: rgba(255,255,255,0.15); color: #fff; }
         .sidebar-menu a.active { background: rgba(255,255,255,0.2); color: #fff; border-right: 3px solid #fff; }
-        .sidebar-menu .icon { width: 20px; text-align: center; }
+        .sidebar-menu a i { font-size: 1.1rem; width: 20px; text-align: center; }
+        .sidebar-footer { position: absolute; bottom: 0; width: 100%; padding: 15px 0; border-top: 1px solid rgba(255,255,255,0.15); }
+        .sidebar-footer form button { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: rgba(255,255,255,0.8); background: none; border: none; font-size: 0.95rem; font-weight: 500; width: 100%; cursor: pointer; transition: all 0.3s; }
+        .sidebar-footer form button:hover { background: rgba(255,255,255,0.15); color: #fff; }
+        .sidebar-footer form button i { font-size: 1.1rem; width: 20px; text-align: center; }
 
         .main-content { margin-left: 250px; padding: 30px; }
 
         .topbar { background: #fff; border-radius: 12px; padding: 15px 25px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
         .topbar h5 { margin: 0; font-weight: 700; color: #1a1a2e; }
-        .admin-avatar { width: 38px; height: 38px; background: #00897b; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 0.9rem; }
+        .user-avatar { width: 38px; height: 38px; background: #00897b; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 0.9rem; }
 
         .content-card { background: #fff; border-radius: 12px; padding: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+
+        .stats-row { display: flex; gap: 15px; margin-bottom: 20px; }
+        .mini-stat { background: #f8f9fa; border-radius: 10px; padding: 12px 20px; flex: 1; text-align: center; }
+        .mini-stat .num { font-size: 1.5rem; font-weight: 700; color: #00897b; }
+        .mini-stat .lbl { font-size: 0.8rem; color: #888; }
 
         .table thead th { background: #f8f9fa; color: #555; font-size: 0.85rem; font-weight: 600; border: none; padding: 12px 15px; }
         .table tbody td { padding: 14px 15px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; font-size: 0.9rem; color: #333; }
@@ -37,50 +48,43 @@
         .btn-delete { background: #ffebee; color: #c62828; border: none; border-radius: 6px; padding: 6px 14px; font-size: 0.82rem; font-weight: 600; }
         .btn-delete:hover { background: #c62828; color: #fff; }
 
-        .alert-success { border-radius: 8px; border: none; background: #e0f2f1; color: #00695c; font-size: 0.9rem; }
-
-        .stats-row { display: flex; gap: 15px; margin-bottom: 20px; }
-        .mini-stat { background: #f8f9fa; border-radius: 10px; padding: 12px 20px; flex: 1; text-align: center; }
-        .mini-stat .num { font-size: 1.5rem; font-weight: 700; color: #00897b; }
-        .mini-stat .lbl { font-size: 0.8rem; color: #888; }
+        .alert-success { border-radius: 8px; border: none; background: #e0f2f1; color: #00695c; }
     </style>
 </head>
 <body>
 
-<!-- Sidebar -->
 <div class="sidebar">
     <div class="sidebar-brand">
-        <h4>JobBridge</h4>
+        <span>JobBridge</span>
         <p>Admin Panel</p>
     </div>
     <div class="sidebar-menu">
         <a href="{{ route('admin.dashboard') }}">
-            Dashboard
+            <i class="bi bi-grid-fill"></i> Dashboard
         </a>
         <a href="{{ route('admin.users') }}">
-            Manage Users
+            <i class="bi bi-people-fill"></i> Manage Users
         </a>
         <a href="{{ route('admin.jobs') }}" class="active">
-            Manage Jobs
+            <i class="bi bi-briefcase-fill"></i> Manage Jobs
         </a>
-        <a href="{{ route('logout') }}"
-           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-            Logout
-        </a>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
+    </div>
+    <div class="sidebar-footer">
+        <form method="POST" action="{{ route('logout') }}">
             @csrf
+            <button type="submit">
+                <i class="bi bi-box-arrow-left"></i> Logout
+            </button>
         </form>
     </div>
 </div>
 
-<!-- Main Content -->
 <div class="main-content">
 
-    <!-- Topbar -->
     <div class="topbar">
         <h5>Manage Jobs</h5>
         <div class="d-flex align-items-center gap-2">
-            <div class="admin-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
+            <div class="user-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
             <div>
                 <div style="font-weight:600;font-size:0.9rem;">{{ auth()->user()->name }}</div>
                 <div style="color:#888;font-size:0.8rem;">Administrator</div>
@@ -88,14 +92,12 @@
         </div>
     </div>
 
-    <!-- Content -->
     <div class="content-card">
 
         @if(session('success'))
             <div class="alert alert-success mb-4">{{ session('success') }}</div>
         @endif
 
-        <!-- Mini Stats -->
         <div class="stats-row mb-4">
             <div class="mini-stat">
                 <div class="num">{{ $jobs->count() }}</div>
@@ -103,11 +105,11 @@
             </div>
             <div class="mini-stat">
                 <div class="num">{{ $jobs->where('status', 'active')->count() }}</div>
-                <div class="lbl">Active Jobs</div>
+                <div class="lbl">Active</div>
             </div>
             <div class="mini-stat">
                 <div class="num">{{ $jobs->where('status', 'closed')->count() }}</div>
-                <div class="lbl">Closed Jobs</div>
+                <div class="lbl">Closed</div>
             </div>
         </div>
 
@@ -129,7 +131,7 @@
                     <td>{{ $index + 1 }}</td>
                     <td>
                         <div style="font-weight:600;">{{ $job->title }}</div>
-                        <div style="font-size:0.8rem;color:#888;">{{ $job->job_type }}</div>
+                        <div style="font-size:0.8rem;color:#888;">{{ ucfirst($job->job_type) }}</div>
                     </td>
                     <td>
                         <div class="d-flex align-items-center gap-2">
@@ -162,5 +164,6 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

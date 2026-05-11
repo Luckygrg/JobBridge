@@ -98,9 +98,8 @@
                         For Employers
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="{{ route('login') }}">Login</a></li>
-                        <li><a class="dropdown-item" href="{{ route('register') }}">Register</a></li>
-                    </ul>
+                        <li><a class="dropdown-item" href="{{ route('login') }}?type=employer">Login</a></li>
+<li><a class="dropdown-item" href="{{ route('login') }}?register=employer">Register</a></li>                    </ul>
                 </div>
 
             </div>
