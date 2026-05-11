@@ -47,6 +47,9 @@
         .deadline { color: #c62828; font-size: 0.82rem; }
         .btn-apply { background: #00897b; color: #fff; border: none; border-radius: 8px; padding: 8px 18px; font-size: 0.88rem; font-weight: 600; text-decoration: none; display: inline-block; }
         .btn-apply:hover { background: #00695c; color: #fff; }
+        .page-link { color: #00897b; }
+        .page-item.active .page-link { background: #00897b; border-color: #00897b; color: #fff; }
+        .page-link:hover { background: #e0f2f1; color: #00695c; }
 
         .no-jobs { background: #fff; border-radius: 12px; padding: 50px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
         .no-jobs p { color: #888; font-size: 1rem; }
@@ -165,6 +168,18 @@
                         <p class="deadline mb-3">Deadline: {{ $job->deadline }}</p>
                         <a href="{{ route('seeker.jobs.show', $job->id) }}" class="btn-apply">View & Apply</a>
                     </div>
+                      <!-- Pagination -->
+        @if($jobs->hasPages())
+        <div class="d-flex justify-content-end mt-4">
+            <ul class="pagination pagination-sm mb-0">
+                @for($i = 1; $i <= $jobs->lastPage(); $i++)
+                    <li class="page-item {{ $jobs->currentPage() == $i ? 'active' : '' }}">
+                        <a class="page-link" href="{{ $jobs->appends(request()->except('page'))->url($i) }}">{{ $i }}</a>
+                    </li>
+                @endfor
+            </ul>
+        </div>
+        @endif
                 </div>
                 @endforeach
             </div>

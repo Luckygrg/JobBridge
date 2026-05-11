@@ -7,6 +7,7 @@ use App\Models\JobListing;
 use App\Models\Application;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class JobController extends Controller
 {
@@ -29,7 +30,7 @@ class JobController extends Controller
             });
         }
 
-        $jobs = $query->latest()->get();
+        $jobs = $query->latest()->paginate(6);
         $categories = Category::all();
 
         return view('seeker.jobs.index', compact('jobs', 'categories'));
@@ -37,14 +38,31 @@ class JobController extends Controller
 
     public function show(JobListing $job)
     {
+        if ($job->status !== 'active') {
+            return redirect()->route('seeker.jobs')->with('error', 'This job is no longer available!');
+        }
+
+        if (Carbon::parse($job->deadline)->isPast()) {
+            return redirect()->route('seeker.jobs')->with('error', 'This job has expired!');
+        }
+
         $applied = Application::where('job_id', $job->id)
                                ->where('user_id', auth()->id())
                                ->exists();
+
         return view('seeker.jobs.show', compact('job', 'applied'));
     }
 
     public function apply(Request $request, JobListing $job)
     {
+        if ($job->status !== 'active') {
+            return back()->with('error', 'This job is no longer accepting applications!');
+        }
+
+        if (Carbon::parse($job->deadline)->isPast()) {
+            return back()->with('error', 'The application deadline for this job has passed!');
+        }
+
         $already = Application::where('job_id', $job->id)
                                ->where('user_id', auth()->id())
                                ->exists();

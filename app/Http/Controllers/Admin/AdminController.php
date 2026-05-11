@@ -28,7 +28,7 @@ class AdminController extends Controller
 
     public function users()
     {
-        $users = User::where('role', '!=', 'admin')->latest()->get();
+        $users = User::where('role', '!=', 'admin')->latest()->paginate(9);
         return view('admin.users', compact('users'));
     }
 
@@ -40,7 +40,7 @@ class AdminController extends Controller
 
     public function jobs()
     {
-        $jobs = JobListing::with('employer', 'category')->latest()->get();
+        $jobs = JobListing::with('employer', 'category')->latest()->paginate(9);
         return view('admin.jobs', compact('jobs'));
     }
 

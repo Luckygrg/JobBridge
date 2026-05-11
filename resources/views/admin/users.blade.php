@@ -47,9 +47,15 @@
 
         .btn-delete { background: #ffebee; color: #c62828; border: none; border-radius: 6px; padding: 6px 14px; font-size: 0.82rem; font-weight: 600; }
         .btn-delete:hover { background: #c62828; color: #fff; }
+        .page-link { color: #00897b; }
+        .page-item.active .page-link { background: #00897b; border-color: #00897b; color: #fff; }
 
         .alert-success { border-radius: 8px; border: none; background: #e0f2f1; color: #00695c; }
-    </style>
+        
+        .pagination .page-link { color: #00897b; border-color: #e0e0e0; }
+        .pagination .page-item.active .page-link { background: #00897b; border-color: #00897b; color: #fff; }
+        .pagination .page-link:hover { background: #e0f2f1; color: #00695c; }
+   </style>
 </head>
 <body>
 
@@ -163,6 +169,17 @@
                 @endforeach
             </tbody>
         </table>
+        @if($users->hasPages())
+        <div class="d-flex justify-content-end mt-4">
+            <ul class="pagination pagination-sm mb-0">
+                @for($i = 1; $i <= $users->lastPage(); $i++)
+                    <li class="page-item {{ $users->currentPage() == $i ? 'active' : '' }}">
+                        <a class="page-link" href="{{ $users->appends(request()->except('page'))->url($i) }}">{{ $i }}</a>
+                    </li>
+                @endfor
+            </ul>
+        </div>
+        @endif
     </div>
 </div>
 

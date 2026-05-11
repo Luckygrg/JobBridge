@@ -45,6 +45,9 @@
         .btn-edit:hover { background: #e65100; color: #fff; }
         .btn-delete { background: #ffebee; color: #c62828; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.82rem; font-weight: 600; }
         .btn-delete:hover { background: #c62828; color: #fff; }
+        .page-link { color: #00897b; }
+        .page-item.active .page-link { background: #00897b; border-color: #00897b; color: #fff; }
+        .page-link:hover { background: #e0f2f1; color: #00695c; }
         .btn-applicants { background: #e0f2f1; color: #00695c; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.82rem; font-weight: 600; text-decoration: none; }
         .btn-applicants:hover { background: #00897b; color: #fff; }
 
@@ -154,6 +157,17 @@
                     @endforeach
                 </tbody>
             </table>
+            @if($jobs->hasPages())
+            <div class="d-flex justify-content-end mt-4">
+                <ul class="pagination pagination-sm mb-0">
+                    @for($i = 1; $i <= $jobs->lastPage(); $i++)
+                        <li class="page-item {{ $jobs->currentPage() == $i ? 'active' : '' }}">
+                            <a class="page-link" href="{{ $jobs->appends(request()->except('page'))->url($i) }}">{{ $i }}</a>
+                        </li>
+                    @endfor
+                </ul>
+            </div>
+            @endif
         @endif
     </div>
 </div>
