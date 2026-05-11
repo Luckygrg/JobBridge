@@ -106,6 +106,22 @@ class JobController extends Controller
         }
 
         $job->delete();
-        return redirect()->route('employer.jobs.index')->with('success', 'Job deleted successfully!');
+        return 
+        redirect()->route('employer.jobs.index')->with('success', 'Job deleted successfully!');
     }
+
+    public function toggleStatus(JobListing $job)
+{
+    if ($job->user_id !== auth()->id()) {
+        abort(403, 'Unauthorized action!');
+    }
+
+    $job->update([
+        'status' => $job->status === 'active' ? 'closed' : 'active'
+    ]);
+
+    $message = $job->status === 'active' ? 'Job is now active!' : 'Job has been closed!';
+
+    return back()->with('success', $message);
+}
 }

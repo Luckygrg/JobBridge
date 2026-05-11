@@ -13,6 +13,10 @@
     .btn-applicants:hover { background: #00897b; color: #fff; }
     .btn-post-new { background: #fff; color: #00897b; border-radius: 8px; padding: 10px 20px; font-weight: 600; text-decoration: none; border: 2px solid #fff; }
     .btn-post-new:hover { background: #e0f2f1; color: #00695c; }
+    .btn-close-job { background: #fff3e0; color: #e65100; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.82rem; font-weight: 600; }
+    .btn-close-job:hover { background: #e65100; color: #fff; }
+    .btn-reopen-job { background: #e8f5e9; color: #2e7d32; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.82rem; font-weight: 600; }
+    .btn-reopen-job:hover { background: #2e7d32; color: #fff; }
 </style>
 @endsection
 
@@ -74,6 +78,20 @@
                         <div class="d-flex gap-1 flex-wrap">
                             <a href="{{ route('employer.applications', $job->id) }}" class="btn-applicants">Applicants</a>
                             <a href="{{ route('employer.jobs.edit', $job->id) }}" class="btn-edit">Edit</a>
+
+                            <!-- Toggle Status -->
+                            <form action="{{ route('employer.jobs.toggle-status', $job->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('PUT')
+                                @if($job->status === 'active')
+                                    <button type="submit" class="btn-close-job"
+                                            onclick="return confirm('Close this job?')">Close</button>
+                                @else
+                                    <button type="submit" class="btn-reopen-job"
+                                            onclick="return confirm('Reopen this job?')">Reopen</button>
+                                @endif
+                            </form>
+
                             <form action="{{ route('employer.jobs.destroy', $job->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')

@@ -35,6 +35,7 @@ Route::middleware(['auth', 'employer'])->prefix('employer')->name('employer.')->
     Route::resource('jobs', JobController::class);
     Route::get('/jobs/{jobId}/applications', [ApplicationController::class, 'index'])->name('applications');
     Route::put('/applications/{application}/{status}', [ApplicationController::class, 'update'])->name('applications.update');
+    Route::put('/jobs/{job}/toggle-status', [JobController::class, 'toggleStatus'])->name('jobs.toggleStatus');
 });
 
 // Seeker Routes
